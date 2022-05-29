@@ -1,10 +1,10 @@
 package com.yohanesrizky.core.repository
 
-import com.yohanesrizky.core.data.Notee
+import com.yohanesrizky.core.data.Note
 
 interface NoteDataSource {
-    suspend fun add(notee: Notee)
-    suspend fun get(id:Long):Notee?
-    suspend fun getAll():List<Notee>
-    suspend fun remove(notee:Notee)
+    suspend fun add(note: Note)
+    suspend fun get(id:Long):Note?
+    suspend fun getAll():List<Note>
+    suspend fun remove(note:Note)
 }
