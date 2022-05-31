@@ -9,7 +9,7 @@ import com.yohanesrizky.yorinotes.databinding.ItemNoteBinding
 import java.text.SimpleDateFormat
 import java.util.*
 
-class NoteListAdapter(private val noteList:ArrayList<Note>):RecyclerView.Adapter<NoteListAdapter.NoteViewHolder>() {
+class NoteListAdapter(private val noteList:ArrayList<Note>,val action: NoteListAction):RecyclerView.Adapter<NoteListAdapter.NoteViewHolder>() {
 
 
     inner class  NoteViewHolder(val view: ItemNoteBinding):RecyclerView.ViewHolder(view.root)
@@ -29,6 +29,9 @@ class NoteListAdapter(private val noteList:ArrayList<Note>):RecyclerView.Adapter
                 val sdf = SimpleDateFormat("MMM dd, HH:mm:ss")
                 val resultDate = Date(updateTime)
                 view.datenote.text = "Last update: ${sdf.format(resultDate)}"
+                view.noteLayout.setOnClickListener {
+                    action.onClick(id)
+                }
             }
         }
     }

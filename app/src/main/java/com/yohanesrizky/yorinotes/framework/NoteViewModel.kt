@@ -9,23 +9,31 @@ import com.yohanesrizky.core.usecase.AddNote
 import com.yohanesrizky.core.usecase.GetAllNotes
 import com.yohanesrizky.core.usecase.GetNote
 import com.yohanesrizky.core.usecase.RemoveNote
+import com.yohanesrizky.yorinotes.framework.di.AppModule
+import com.yohanesrizky.yorinotes.framework.di.DaggerViewModelComponent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 class NoteViewModel(application: Application):AndroidViewModel(application) {
     private val coroutineScope = CoroutineScope(Dispatchers.IO)
 
     private val repository = NoteRepository(RoomNoteDataSource(application))
 
-    val useCases = UseCases(
-        AddNote(repository),
-        GetAllNotes(repository),
-        GetNote(repository),
-        RemoveNote(repository)
-    )
+    @Inject
+    lateinit var useCases:UseCases
+
+    init {
+        DaggerViewModelComponent.builder()
+            .appModule(AppModule(getApplication()))
+            .build()
+            .Inject(this)
+    }
 
     val saved = MutableLiveData<Boolean>()
+    val currentNote = MutableLiveData<Note?>()
 
     fun saveNote(note: Note){
         coroutineScope.launch {
@@ -33,5 +41,21 @@ class NoteViewModel(application: Application):AndroidViewModel(application) {
             saved.postValue(true)
         }
     }
+
+    fun getNote(id: Long){
+        coroutineScope.launch {
+            val note = useCases.getNote(id)
+            currentNote.postValue(note)
+        }
+    }
+
+    fun deleteNote(note: Note){
+        coroutineScope.launch {
+            useCases.removeNote(note)
+            saved.postValue(true)
+        }
+    }
+
+
 
 }

@@ -14,11 +14,11 @@ import com.yohanesrizky.yorinotes.framework.NoteListViewModel
 import com.yohanesrizky.yorinotes.framework.NoteViewModel
 
 
-class ListFragment : Fragment() {
+class ListFragment : Fragment(),NoteListAction {
     private var _binding: FragmentListBinding? = null
     private val binding get() = _binding!!
     private lateinit var viewModel: NoteListViewModel
-    private val noteListAdapter = NoteListAdapter(arrayListOf())
+    private val noteListAdapter = NoteListAdapter(arrayListOf(),this)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -56,5 +56,9 @@ class ListFragment : Fragment() {
     private fun goToNoteDetails(id:Long = 0L){
         val action = ListFragmentDirections.actionToGoNote(id)
         Navigation.findNavController(binding.noteListView).navigate(action)
+    }
+
+    override fun onClick(id: Long) {
+        goToNoteDetails(id)
     }
 }
