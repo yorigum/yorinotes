@@ -25,6 +25,7 @@ class NoteListAdapter(private val noteList:ArrayList<Note>,val action: NoteListA
             with(noteList[position]){
                 view.titleNote.text = title
                 view.contentNote.text = content
+                view.wordCount.text = "Words $wordCount"
 
                 val sdf = SimpleDateFormat("MMM dd, HH:mm:ss")
                 val resultDate = Date(updateTime)

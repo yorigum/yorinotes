@@ -2,10 +2,7 @@ package com.yohanesrizky.yorinotes.framework.di
 
 import android.app.Application
 import com.yohanesrizky.core.repository.NoteRepository
-import com.yohanesrizky.core.usecase.AddNote
-import com.yohanesrizky.core.usecase.GetAllNotes
-import com.yohanesrizky.core.usecase.GetNote
-import com.yohanesrizky.core.usecase.RemoveNote
+import com.yohanesrizky.core.usecase.*
 import com.yohanesrizky.yorinotes.framework.RoomNoteDataSource
 import com.yohanesrizky.yorinotes.framework.UseCases
 import dagger.Module
@@ -18,6 +15,7 @@ class UsecaseModule {
         AddNote(repository),
         GetAllNotes(repository),
         GetNote(repository),
-        RemoveNote(repository)
+        RemoveNote(repository),
+        GetWordCount()
     )
 }
